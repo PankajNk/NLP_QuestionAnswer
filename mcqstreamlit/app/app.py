@@ -7,6 +7,14 @@ import streamlit as st
 import torch
 from transformers import T5ForConditionalGeneration,T5Tokenizer
 
+import time
+
+
+# st.set_page_config(
+#     page_title = "Home",
+# )
+st.title("NLP Shortcut")
+
 @st.cache_resource
 def get_model():
     summary_model = T5ForConditionalGeneration.from_pretrained('t5-base')
@@ -15,7 +23,7 @@ def get_model():
 
 summary_model,summary_tokenizer = get_model()
 
-input_summary = st.text_input("Input the text to get the summary:")
+input_summary = st.text_area("Input the text to get the summary:",placeholder="Enter the text", height=200) # height in pixel
 button = st.button("Press to summarise")
 
 def postprocesstext (content):
@@ -41,7 +49,7 @@ def summarizer(text,model,tokenizer):
                                   num_return_sequences=1,
                                   no_repeat_ngram_size=2,
                                   min_length = 75,
-                                  max_length=300)
+                                  max_length=1000)
 
 
   dec = [tokenizer.decode(ids,skip_special_tokens=True) for ids in outs]
@@ -52,8 +60,12 @@ def summarizer(text,model,tokenizer):
   return summary
 
 if input_summary and button:
-    summarized_text = summarizer(input_summary,summary_model,summary_tokenizer)
+    with st.spinner('Please wait...model is processes your input'):
+        time.sleep(5)
+        summarized_text = summarizer(input_summary,summary_model,summary_tokenizer)
+    st.success("Success")
     st.write(summarized_text)
+    
     #print("Original:   ",input_summary)
     #print("After :   ",summarized_text)
 
