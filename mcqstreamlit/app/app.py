@@ -10,10 +10,11 @@ from transformers import T5ForConditionalGeneration,T5Tokenizer
 import time
 
 
-# st.set_page_config(
-#     page_title = "Home",
-# )
+st.set_page_config(
+    page_title = "Home",
+)
 st.title("NLP Shortcut")
+st.subheader("ParaSummarize is an advanced Natural Language Processing (NLP) model tailored to simplify the process of digesting lengthy paragraphs. With ParaSummarize, complex texts are distilled into concise, coherent summaries with just a click. This invaluable tool empowers researchers, students, and professionals to save time and gain quick insights from extensive content.")
 
 @st.cache_resource
 def get_model():
@@ -60,10 +61,11 @@ def summarizer(text,model,tokenizer):
   return summary
 
 if input_summary and button:
-    with st.spinner('Please wait...model is processes your input'):
+    with st.spinner('Please wait...model is processing your input'):
         time.sleep(5)
         summarized_text = summarizer(input_summary,summary_model,summary_tokenizer)
     st.success("Success")
+    st.balloons()
     st.write(summarized_text)
     
     #print("Original:   ",input_summary)

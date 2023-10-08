@@ -3,3 +3,5 @@ transformers
 torch
 nltk
 sentencepiece
+git+https://github.com/boudinfl/pke.git
+flashtext==2.7
